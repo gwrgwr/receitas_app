@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:receitas_app/tab_bar_food/controller/categories_controller.dart';
-import 'package:receitas_app/views/categories_recipe_page.dart';
+import 'package:receitas_app/tab_bar_food/page/categories_recipe_page.dart';
 
 class FoodWidget extends StatefulWidget {
   const FoodWidget({super.key});
@@ -36,7 +36,7 @@ class _FoodWidgetState extends State<FoodWidget> {
                 hintStyle: TextStyle(
                     color: Colors.blueGrey.withOpacity(0.6),
                     fontFamily: 'NunitoSans'),
-                hintText: "Adicionar nova tarefa",
+                hintText: "Adicionar nova categoria",
                 suffixIcon: CircleAvatar(
                   backgroundColor: Colors.blueGrey.withOpacity(0.6),
                   child: IconButton(

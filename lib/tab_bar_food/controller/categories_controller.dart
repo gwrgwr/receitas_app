@@ -9,6 +9,8 @@ class CategoriesController extends GetxController {
 
   RxBool isTextFieldNull = false.obs;
 
+  RxInt indexRecipe = 0.obs;
+
   List<CategoriesModel> get categoriesList => _categoriesList;
 
   RxMap<int, dynamic> get recipesMap => _recipesMap;
