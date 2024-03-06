@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:receitas_app/tab_bar_food/controller/categories_controller.dart';
+import 'package:receitas_app/First_TabBar/controller/categories_controller.dart';
 
 class CategorieRecipesPage extends StatefulWidget {
   CategorieRecipesPage({required this.index, super.key});
@@ -41,6 +41,7 @@ class _CategorieRecipesPageState extends State<CategorieRecipesPage> {
                 fontWeight: FontWeight.w500,
               ),
             ),
+            Text(widget.index.toString()),
             SizedBox(
               height: 10,
             ),
@@ -58,10 +59,9 @@ class _CategorieRecipesPageState extends State<CategorieRecipesPage> {
                     icon: Icon(Icons.add),
                     onPressed: () {
                       c.addRecipe(
-                        index: c.indexRecipe.value,
+                        index: widget.index,
                         name: recipeNameController.text,
                       );
-                      c.indexRecipe.value++;
                       recipeNameController.clear();
                     },
                   ),
@@ -76,35 +76,34 @@ class _CategorieRecipesPageState extends State<CategorieRecipesPage> {
             ),
             SizedBox(height: 30),
             Obx(() {
-              return c.recipesMap.isEmpty
+              return c.recipesList.isEmpty
                   ? Text('Nenhuma Receita adicionada')
                   : Expanded(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      itemCount: c.recipesMap.keys.length,
-                      separatorBuilder: (_, __) => Divider(),
-                      itemBuilder: (context, index) {
-                        final key = c.recipesMap.keys.elementAt(index);
-                        return Container(
-                          height: 200,
-                          child: Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceAround,
-                            children: [
-                              Text("${key + 1}"),
-                              Text(
-                                c.recipesMap[index],
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontFamily: 'NunitoSans',
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        itemCount: c.recipesList[widget.index]!.length,
+                        separatorBuilder: (_, __) => Divider(),
+                        itemBuilder: (context, index) {
+                          final item =
+                              c.recipesList[widget.index]![index].typeName;
+                          return Container(
+                            height: 200,
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                Text(
+                                  item,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontFamily: 'NunitoSans',
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        );
-                      },
-                    ),
-                  );
+                              ],
+                            ),
+                          );
+                        },
+                      ),
+                    );
             }),
           ],
         ),

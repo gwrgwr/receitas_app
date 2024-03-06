@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:receitas_app/tab_bar_food/controller/categories_controller.dart';
-import 'package:receitas_app/tab_bar_food/page/categories_recipe_page.dart';
+import 'package:receitas_app/First_TabBar/controller/categories_controller.dart';
+import 'package:receitas_app/First_TabBar/page/categories_recipe_page.dart';
 
 class FoodWidget extends StatefulWidget {
   const FoodWidget({super.key});
@@ -17,7 +17,7 @@ class _FoodWidgetState extends State<FoodWidget> {
     TextEditingController categorieNameController = TextEditingController();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      child: ListView(
+      child: Column(
         children: [
           Obx(() {
             return TextField(
@@ -42,7 +42,9 @@ class _FoodWidgetState extends State<FoodWidget> {
                   child: IconButton(
                     onPressed: () {
                       if (categorieNameController.text.isNotEmpty) {
-                        c.addItem(name: categorieNameController.text);
+                        c.addItem(
+                          name: categorieNameController.text,
+                        );
                         categorieNameController.clear();
                         c.isTextFieldNull.value = false;
                       } else {
@@ -73,28 +75,32 @@ class _FoodWidgetState extends State<FoodWidget> {
                       ),
                     )
                   : SizedBox(
-                      height: 550,
+                      height: 130,
                       child: ListView.separated(
+                        scrollDirection: Axis.horizontal,
                         itemCount: c.categoriesList.length,
-                        separatorBuilder: (_, __) => SizedBox(height: 20),
+                        separatorBuilder: (_, __) => SizedBox(width: 15),
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
                               Get.to(() => CategorieRecipesPage(index: index));
                             },
                             child: Container(
-                              width: double.infinity,
+                              width: 100,
                               decoration: BoxDecoration(
                                 shape: BoxShape.rectangle,
                                 borderRadius: BorderRadius.circular(15),
                                 border: Border.all(
                                     color: Colors.blueGrey.withOpacity(0.4)),
-                                color: Color(0xffdddddd).withOpacity(0.6),
+                                color: index.isEven
+                                    ? Color.fromARGB(255, 200, 238, 157)
+                                        .withOpacity(0.6)
+                                    : Color.fromARGB(255, 116, 103, 235),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.symmetric(
                                     horizontal: 20, vertical: 10),
-                                child: Row(
+                                child: Column(
                                   children: [
                                     Text(
                                       c.categoriesList[index].name,
@@ -103,6 +109,9 @@ class _FoodWidgetState extends State<FoodWidget> {
                                         fontFamily: 'RobotoMono',
                                         color: Colors.black,
                                       ),
+                                    ),
+                                    Obx(
+                                      () => Text("${c.recipesList.length}"),
                                     ),
                                   ],
                                 ),
