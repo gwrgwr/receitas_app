@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:receitas_app/First_TabBar/controller/categories_controller.dart';
-import 'package:receitas_app/First_TabBar/page/categories_recipe_page.dart';
+import 'package:receitas_app/First_TabBar/models/recipes_model.dart';
+import 'package:receitas_app/First_TabBar/page/recipes_page.dart';
 
 class FoodWidget extends StatefulWidget {
   const FoodWidget({super.key});
@@ -15,6 +16,7 @@ class _FoodWidgetState extends State<FoodWidget> {
   Widget build(BuildContext context) {
     final CategoriesController c = Get.put(CategoriesController());
     TextEditingController categorieNameController = TextEditingController();
+    final newRecipes = <RecipesModel>[];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
       child: Column(
@@ -43,8 +45,8 @@ class _FoodWidgetState extends State<FoodWidget> {
                     onPressed: () {
                       if (categorieNameController.text.isNotEmpty) {
                         c.addItem(
-                          name: categorieNameController.text,
-                        );
+                            name: categorieNameController.text,
+                            recipes: newRecipes);
                         categorieNameController.clear();
                         c.isTextFieldNull.value = false;
                       } else {
@@ -83,7 +85,7 @@ class _FoodWidgetState extends State<FoodWidget> {
                         itemBuilder: (context, index) {
                           return GestureDetector(
                             onTap: () {
-                              Get.to(() => CategorieRecipesPage(index: index));
+                              Get.to(() => RecipesPage(index: index));
                             },
                             child: Container(
                               width: 100,
@@ -110,9 +112,10 @@ class _FoodWidgetState extends State<FoodWidget> {
                                         color: Colors.black,
                                       ),
                                     ),
-                                    Obx(
-                                      () => Text("${c.recipesList.length}"),
-                                    ),
+                                    Obx(() {
+                                      return Text(
+                                          "${c.recipesList[index]?.recipes.length ?? 0}");
+                                    })
                                   ],
                                 ),
                               ),
