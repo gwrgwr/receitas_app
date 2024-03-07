@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_final_fields
+// ignore_for_file: prefer_final_fields, avoid_print
 
 import 'package:get/get.dart';
 import 'package:receitas_app/First_TabBar/models/categories_model.dart';
@@ -7,7 +7,7 @@ import 'package:receitas_app/First_TabBar/models/recipes_model.dart';
 class CategoriesController extends GetxController {
   List<CategoriesModel> _categoriesList = <CategoriesModel>[].obs;
 
-  RxMap<int, CategoriesModel> _recipesList = RxMap<int, CategoriesModel>();
+  RxMap<int, CategoriesModel> _recipesList = <int, CategoriesModel>{}.obs;
 
   RxBool isTextFieldNull = false.obs;
 
@@ -24,7 +24,12 @@ class CategoriesController extends GetxController {
   void addRecipeToCategory(int categoryIndex, RecipesModel recipe) {
     final category = _categoriesList[categoryIndex];
     category.recipes.add(recipe);
-    _recipesList[categoryIndex] = category;
+    _recipesList[categoryIndex] =
+        category;
     _recipesList.refresh();
+    print(categoryIndex);
+    print(_recipesList.runtimeType);
+    print(_recipesList[categoryIndex].runtimeType);
+    print(_recipesList[categoryIndex]?.recipes.runtimeType);
   }
 }

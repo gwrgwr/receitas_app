@@ -18,6 +18,7 @@ class _RecipesPageState extends State<RecipesPage> {
   Widget build(BuildContext context) {
     final CategoriesController c = Get.find<CategoriesController>();
     final TextEditingController recipeNameController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         title: Text(c.categoriesList[widget.index].name),
@@ -57,43 +58,43 @@ class _RecipesPageState extends State<RecipesPage> {
               ),
             ),
             SizedBox(height: 30),
-            Obx(() {
-              return c.recipesList.isEmpty
-                  ? Text('Nenhuma receita adicionada ainda!')
-                  : Expanded(
-                      child: ListView.separated(
-                        shrinkWrap: true,
-                        itemBuilder: (context, indexA) {
-                          final item =
-                              c.recipesList[widget.index]!.recipes[indexA];
-                          return Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15),
-                              color: indexA.isEven
-                                  ? Color.fromARGB(255, 116, 103, 235)
-                                  : Color.fromARGB(255, 200, 238, 157)
-                                      .withOpacity(0.6),
-                            ),
-                            height: 50,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: [
-                                Text("${c.recipesList[widget.index]}"),
-                                Text("${c.recipesList[widget.index]?.name}"),
-                                Text("${item}"),
-                                Text("${c.recipesList[widget.index]?.recipes.length}"),
-                                Text(item.recipeName)
-                              ],
-                            ),
-                          );
-                        },
-                        separatorBuilder: (context, index) =>
-                            Divider(height: 20),
-                        itemCount:
-                            c.recipesList[widget.index]?.recipes.length ?? 0,
-                      ),
-                    );
-            }),
+            Obx(
+              () {
+                if (c.recipesList.isEmpty ||
+                    c.recipesList[widget.index] == null ||
+                    c.recipesList[widget.index]!.recipes.isEmpty) {
+                  return Text('Nenhuma receita adicionada ainda!');
+                } else {
+                  return Expanded(
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        final recipe = c.recipesList[widget.index]!.recipes[index];
+                        return Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15),
+                            color: index.isEven
+                                ? Color.fromARGB(255, 116, 103, 235)
+                                : Color.fromARGB(255, 200, 238, 157)
+                                .withOpacity(0.6),
+                          ),
+                          height: 50,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Text("${recipe.recipeName}"),
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) =>
+                          Divider(height: 20),
+                      itemCount: c.recipesList[widget.index]!.recipes.length,
+                    ),
+                  );
+                }
+              },
+            ),
           ],
         ),
       ),

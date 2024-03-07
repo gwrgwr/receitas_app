@@ -45,8 +45,9 @@ class _FoodWidgetState extends State<FoodWidget> {
                     onPressed: () {
                       if (categorieNameController.text.isNotEmpty) {
                         c.addItem(
-                            name: categorieNameController.text,
-                            recipes: newRecipes);
+                          name: categorieNameController.text,
+                          recipes: newRecipes,
+                        );
                         categorieNameController.clear();
                         c.isTextFieldNull.value = false;
                       } else {
@@ -112,10 +113,7 @@ class _FoodWidgetState extends State<FoodWidget> {
                                         color: Colors.black,
                                       ),
                                     ),
-                                    Obx(() {
-                                      return Text(
-                                          "${c.recipesList[index]?.recipes.length ?? 0}");
-                                    })
+                                     Text("")
                                   ],
                                 ),
                               ),
